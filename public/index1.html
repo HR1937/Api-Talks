@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech to Text (ElevenLabs)</title>
+</head>
+<body>
+  <h2>🎤 ElevenLabs Speech to Text</h2>
+  <button id="recordBtn">Start Recording</button>
+  <p id="status">Not recording...</p>
+  <h3>Transcription:</h3>
+  <p id="transcription"></p>
+
+  <script>
+    let mediaRecorder;
+    let audioChunks = [];
+
+    const recordBtn = document.getElementById("recordBtn");
+    const status = document.getElementById("status");
+    const transcriptionEl = document.getElementById("transcription");
+
+    recordBtn.addEventListener("click", async () => {
+      if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+          audioChunks = [];
+
+          const formData = new FormData();
+          formData.append("file", audioBlob, "recording.webm");
+
+          status.innerText = "Sending to ElevenLabs...";
+
+          const response = await fetch("/transcribe", {
+            method: "POST",
+            body: formData
+          });
+
+          const data = await response.json();
+          transcriptionEl.innerText = data.text;
+          status.innerText = "Done ✅";
+        };
+
+        mediaRecorder.start();
+        status.innerText = "Recording...";
+        recordBtn.innerText = "Stop Recording";
+      } else {
+        mediaRecorder.stop();
+        recordBtn.innerText = "Start Recording";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+    background-color: #212121;
+}
+
+.head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+    height: 100%;
+
+}
+
+.tail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+button{
+    border: none;
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 20px;
+    width: 100px;
+    height: 100px;
+}
+
