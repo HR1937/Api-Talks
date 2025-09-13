@@ -50,6 +50,6 @@ async function output2()//convert eng to guj
 
 
 
-app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
