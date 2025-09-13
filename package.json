@@ -2,8 +2,10 @@
   "name": "apis",
   "version": "1.0.0",
   "main": "backend.js",
+    "type": "module",             
   "scripts": {
-    "type": "module"
+    "start": "node backend.js", 
+    "dev": "nodemon backend.js"  
   },
   "keywords": [],
   "author": "",
